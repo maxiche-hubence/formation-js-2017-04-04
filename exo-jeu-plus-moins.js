@@ -11,6 +11,13 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
 /**
  * fonction constructeur pour le jeu
  * 
@@ -27,13 +34,32 @@ const Jeu = function(limits){
 }
 // ajout du ptototype pour la méthode jouer
 Jeu.prototype.jouer = function(){
-    console.log('test :' + this._min +' à '+this._max);
+    if(this._answers.length){
+        console.log('Précédents essais : ' + this._answers.join(', '));
+    }
+    rl.question('Le nombre doit être compris entre '+this._min +' et '+this._max +' - à toi :', (saisie) => {
+        this._typedData = Number(saisie);
+        // Est-ce un nombre valide ?
+        if(Number.isNaN(this._typedData)){
+            console.log('Vous devez saisir un nombre !');
+            return this.jouer();
+        }
+        this._answers.push(this._typedData);
+        if(this._typedData > this._findNumber){
+            console.log('TROP GRAND !');
+            return this.jouer();
+        }
+        if(this._typedData <this._findNumber){
+            console.log('trop petit !');
+            return this.jouer();
+        }
+        if(this._typedData === this._findNumber){
+            console.log('Well done !');
+            rl.close();
+        }
+    });
 }
 
-
-const jeu = new Jeu({min:10, max:150});
+const jeu = new Jeu({min:1, max:100});
 jeu.jouer();
-
-
-
 
