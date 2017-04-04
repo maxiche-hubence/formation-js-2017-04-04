@@ -27,7 +27,7 @@ const Jeu = function(limits){
 }
 // ajout du ptototype pour la méthode jouer
 Jeu.prototype.jouer = function(){
-    Console.log('test' + this._min +' à '+this._max);
+    console.log('test :' + this._min +' à '+this._max);
 }
 
 
